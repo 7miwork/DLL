@@ -15,15 +15,34 @@ Dokumentation, Beispielcode und KI-Assistenz-Kontext für die Anbindung der
 | [`SUNIX_DLL_VisualBasic.md`](./SUNIX_DLL_VisualBasic.md) | Beispielcode: DLL-Zugriff per `DllImport` (VB.NET). |
 | [`SUNIX_Installation_Kurzanleitung.md`](./SUNIX_Installation_Kurzanleitung.md) | Kurzanleitung Hardware-Einbau + Treiberinstallation, inkl. Begriffe für traditionell-chinesisches Windows. |
 | [`SUNIX_Install_Helper.ps1`](./SUNIX_Install_Helper.ps1) | PowerShell-Skript: startet die Treiberinstallation und prüft danach per `Get-PnpDevice`, ob Karte/COM-Ports erkannt wurden. |
+| [`Driver/`](./Driver) | Original-Treiber-/API-Pakete des Herstellers (ZIP): SDC IO Manager x86/x64 (Treiber + SDC Manager), Windows SDC API V1.0.6.0 (enthält `sdciodll.h`, `sdciodll.dll` x86/x64 sowie C/C#/VB-Samples) und der Linux-Treiber. Nur zur Referenz/Installation gedacht – die Binärdateien werden nicht ins Git-Repo committet. |
+| [`Manual/`](./Manual), [`Guide/`](./Guide), [`Datasheet/`](./Datasheet) | Hersteller-Dokumentation als PDF: Benutzerhandbuch (SDC Manager inkl. Invert-Option), Quick Installation Guide und Datenblatt (SDC0880I). |
+| [`Tester/`](./Tester) | Lauffähiger **DI-Tester** (Python/C++/VB.NET) für die 8 Digital Inputs – inkl. Mock-Fallback, damit er auch ohne eingebaute Karte läuft. Details: [`Tester/README.md`](./Tester/README.md). |
+
+## Digital-Input-Tester (`Tester/`)
+
+Im Unterordner [`Tester/`](./Tester) liegt ein fertiges kleines Testprogramm,
+das die 8 Digital Inputs live anzeigt: **DI1–DI8**, grün = von der API als
+aktiv/1 gemeldet, grau = inaktiv, Polling alle 250 ms. Es gibt das Programm
+dreimal – Python (Tkinter), C++ (Konsole) und VB.NET (WinForms) – jeweils mit
+identischer Architektur (Abstraktionsschicht `SdcIoClient`, dynamisches Laden
+der DLL, automatischer **Mock-Modus** als Fallback).
+
+Wichtig: Ob „aktiv“ elektrisch High oder Low ist, wird nicht ausgewertet – das
+stellt man im SDC Manager über die Invert-Option ein. Die DLL-API
+(`Lib_init` / `SDC_enumerate_dio_info` / `SDC_dio_open` / `SDC_get_di_value`)
+ist inzwischen über das API-Paket in `Driver/` **vollständig verifiziert** und
+ gegen die echte DLL getestet (Details: [`Tester/README.md`](./Tester/README.md)).
 
 ## Wichtigster Fakt für jede KI, die hier arbeitet
 
-Aus der Hersteller-Dokumentation sind nur diese vier DLL-Funktionen bestätigt:
-`_sdc_dll_init()`, `_sdc_dll_free()`, `_sdc_get_service_info()`,
-`_sdc_get_sdc_info()`. Alles darüber hinaus (insbesondere Lesen der Digital
-Inputs / Schreiben der Digital Outputs) steht nur in der `sdciodll.h` aus dem
-Hersteller-SDK, die **nicht** Teil dieses Repos ist. Details siehe
-[`AGENTS.md`](./AGENTS.md), Abschnitt 3.
+Die echten DLL-Exporte (bestätigt per `sdciodll.h` aus dem API-Paket in
+`Driver/` sowie per `dumpbin /exports`): `Lib_init`, `Lib_free`,
+`Get_library_info`, `SDC_enumerate_dio_info`, `SDC_dio_open`, `SDC_dio_close`,
+`SDC_get_di_value`, `SDC_set_di_invert`, `SDC_set_do_value`, u. a. (39 Exporte,
+x86/x64 identisch). Die im älteren Handbuch genannten Namen (`_sdc_dll_init`
+usw.) existieren in dieser DLL-Version **nicht**. Details siehe
+[`AGENTS.md`](./AGENTS.md), Abschnitt 3, und [`Tester/README.md`](./Tester/README.md).
 
 ## Hardware kurz zusammengefasst
 

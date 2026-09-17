@@ -54,6 +54,6 @@ gekennzeichnet.
 
 | Ordner | Hersteller/Produkt | Beschreibung |
 |---|---|---|
-| [`SUNIX/`](./SUNIX) | SUNIX SDC4880B / SDC0880I | PCI Express Industrial I/O Control Board (Digital I/O + RS-232/422/485), Ansteuerung über `sdciodll.dll` |
+| [`SUNIX/`](./SUNIX) | SUNIX SDC4880B / SDC0880I | PCI Express Industrial I/O Control Board (Digital I/O + RS-232/422/485), Ansteuerung über `sdciodll.dll`; inkl. lauffähigem DI-Tester (Python/C++/VB.NET) unter [`SUNIX/Tester/`](./SUNIX/Tester) |
 
 Neue Projekte werden hier ergänzt, sobald ein neuer Ordner angelegt wird.

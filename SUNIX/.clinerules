@@ -37,25 +37,23 @@ sind NICHT Teil dieses Repos, sondern liegen nur lokal im Treiberpaket.
 - Ansteuerung über Herstellerprogramm **SDC Manager** (GUI) und/oder
   **sdciodll.dll** (C-API, per DLL-Import aus C/C++, VB.NET oder Python/ctypes
   nutzbar).
-- Bekannte, im Handbuch dokumentierte Funktionen der DLL:
-  - `_sdc_dll_init()`
-  - `_sdc_dll_free()`
-  - `_sdc_get_service_info()`
-  - `_sdc_get_sdc_info()`
-- **Wichtig:** Die exakten Signaturen für das eigentliche Lesen der Digital
-  Inputs bzw. Schreiben der Digital Outputs sind in der aktuellen
-  Dokumentationsgrundlage NICHT enthalten. Sie befinden sich nur in der
-  `sdciodll.h`, die Teil des SUNIX-SDK-Ordners ist (liegt normalerweise neben
-  `sdciodll.dll`/`sdciodll.lib` im Treiberpaket).
+- Verifizierte DLL-Exporte (Quelle: `sdciodll.h` + `dumpbin /exports` der
+  `sdciodll.dll` x86/x64 aus dem API-Paket in `Driver/`):
+  - `Lib_init()`, `Lib_free()`, `Get_library_info()`
+  - `SDC_enumerate_dio_info(PSDC_DIO_BASIC_INFO_LIST)` (`uint32 DioAmount` +
+    256 x `{int32 DioIndex; int32 Version; int32 PciNumber}`)
+  - `SDC_dio_open(int DioIndex)`, `SDC_dio_close(int DioIndex)`
+  - `SDC_get_di_value(int DioIndex, int DiPortNumber, unsigned* value)`
+  - weitere: `SDC_get_all_di_info`, `SDC_set_di_invert`, `SDC_set_do_value`, ...
+  - alle `__cdecl`, Rückgabe `0` = `STATUS_SUCCESS`
+- **Wichtig:** Die im älteren Handbuch genannten Namen (`_sdc_dll_init()` usw.)
+  existieren in dieser DLL-Version **nicht** – die alten Grundgerüste in
+  `SUNIX_DLL_*.md` sind diesbezüglich veraltet.
 
 ## 2. Regel für Cline: Keine Funktionssignaturen erfinden
-- Wenn eine Funktion aus der DLL benötigt wird, deren genaue Signatur nicht
-  bekannt ist (Parameter, Rückgabetyp, ByRef/Pointer-Verhalten): **nicht
-  raten**. Stattdessen:
-  1. Im Repo nach `sdciodll.h` oder vorhandenen Beispielprojekten suchen.
-  2. Falls nicht vorhanden: TODO-Kommentar setzen und im Chat nachfragen,
-     bzw. eine klar markierte Platzhalter-Signatur verwenden, die vor
-     produktivem Einsatz noch verifiziert werden muss.
+- Die obigen Signaturen gelten nur für die verifizierte DLL-Version
+  (Windows SDC API V1.0.6.0). Bei anderen DLL-Versionen zuerst die Exportliste
+  per `dumpbin /exports sdciodll.dll` prüfen – nicht raten.
 - Vorhandene Referenz-Implementierungen im Repo (falls hier abgelegt):
   `SUNIX_DLL_Python.md`, `SUNIX_DLL_Cpp.md`, `SUNIX_DLL_VisualBasic.md`
   – diese enthalten nur die vier bestätigten Funktionen als Grundgerüst.

@@ -1,0 +1,5 @@
+# Abhaengigkeiten fuer den Python-DI-Tester
+#
+# Zur Laufzeit wird NUR die Python-Standardbibliothek benoetigt
+# (ctypes, tkinter) - hier steht nur das Build-Werkzeug fuer die .exe.
+pyinstaller>=6.0

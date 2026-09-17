@@ -78,20 +78,26 @@ Daraus folgende Vorgaben für jede KI, die an diesem Projekt arbeitet:
    bzw. eine Architektur-Fehlpassung (x86 vs. x64), nicht der Code selbst.
 
 ## 3. Regel: Keine Funktionssignaturen oder Installer-Parameter erfinden
-Aus der Handbuch-Dokumentation sind nur folgende DLL-Funktionen bestätigt:
-- `_sdc_dll_init()`
-- `_sdc_dll_free()`
-- `_sdc_get_service_info()`
-- `_sdc_get_sdc_info()`
+Die DLL-API ist inzwischen **VERIFIZIERT** (Quellen: `sdciodll.h` und
+Exportliste der `sdciodll.dll` x86/x64 aus dem API-Paket
+`Driver/…Windows_SDC_API_V1.0.6.0….zip`):
+- `Lib_init()`, `Lib_free()`, `Get_library_info()`
+- `SDC_enumerate_dio_info(PSDC_DIO_BASIC_INFO_LIST)` – Karten auflisten
+  (`uint32 DioAmount` + 256 x `{int32 DioIndex; int32 Version; int32 PciNumber}`,
+  12 Byte/Eintrag)
+- `SDC_dio_open(int DioIndex)`, `SDC_dio_close(int DioIndex)`
+- `SDC_get_di_value(int DioIndex, int DiPortNumber, unsigned* value)`
+- weitere: `SDC_get_all_di_info`, `SDC_get_di_info`, `SDC_set_di_invert`,
+  `SDC_set_di_filter_value`, `SDC_set_di_event_mode`, `SDC_set_do_value`, ...
+- alle `__cdecl`, Rückgabe `0` = `STATUS_SUCCESS`
 
-Für alle weiteren Funktionen (insbesondere tatsächliches Lesen der Digital
-Inputs bzw. Schreiben der Digital Outputs) gilt:
-- Signaturen (Parameter, Rückgabetyp, Pointer/ByRef-Verhalten) sind **nicht**
-  aus dem Handbuch bekannt, sondern stehen nur in der `sdciodll.h`, die Teil
-  des SUNIX-SDK-Ordners im Treiberpaket ist.
-- Nicht raten. Stattdessen im Repository nach `sdciodll.h` oder vorhandenen
-  Beispielprojekten suchen; falls nicht vorhanden, Platzhalter klar als TODO
-  markieren und beim Menschen nachfragen, bevor produktiv genutzt.
+**Wichtig:** Die im älteren Handbuch genannten Namen (`_sdc_dll_init()` usw.)
+existieren in dieser DLL-Version **nicht** als Exporte – die alten
+Grundgerüste in `SUNIX_DLL_*.md` sind diesbezüglich veraltet.
+
+Weiter gilt:
+- Bei abweichenden/anderen DLL-Versionen vorher die Exportliste per
+  `dumpbin /exports sdciodll.dll` prüfen – nicht raten.
 - Ebenso keine Silent-Install-Parameter für `Setup.exe` (InstallShield)
   erfinden – für dieses Paket sind keine Kommandozeilenschalter dokumentiert.
 
