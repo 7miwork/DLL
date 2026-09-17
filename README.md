@@ -1,5 +1,9 @@
 # DLL – Sammlung von DLL-/SDK-Integrationsprojekten
 
+> **KI-Einstiegspunkt:** Vollständige Verzeichnisübersicht mit Zwecken und
+> verifizierter API steht in [`INDEX.md`](./INDEX.md) – bitte zuerst dort
+> nachschlagen.
+
 Dieses Repository sammelt Dokumentation, Beispielcode und
 KI-Assistenz-Kontextdateien für die Anbindung verschiedener Hersteller-DLLs
 und -SDKs (z. B. Industrie-I/O-Karten, Kamera-SDKs, etc.) an eigene
