@@ -99,6 +99,40 @@ AOI-/Locherkennung.
 
 L09–L11 nur nötig, wenn die Relais-Firmware neu geflasht wird.
 
+## Kostenlose Hoster (Empfehlung für diese Dateien)
+
+Gesamtumfang ist nur **~1,38 GB** → reichen kostenlose Konten locker aus.
+
+| Hoster | Gratis-Speicher | Max. Dateigröße | Unbegrenzt? | Geeignet? |
+|---|---|---|---|---|
+| **MEGA** (mega.nz) | 20 GB | unbegrenzt (Browser/App) | Speicher fix | ✅ **Empfehlung**: ganzes Paket passt in das Gratis-Konto, Ende-zu-Ende-verschlüsselt, dauerhafte Links |
+| **Internet Archive** (archive.org) | unbegrenzt | unbegrenzt | ✅ wirklich unbegrenzt & dauerhaft | ✅ gut für langfristige Archivierung; Uploads sind **öffentlich** (keine confidentiellen Inhalte!) |
+| **GoFile.io** | unbegrenzt | unbegrenzt | Dateien werden bei längerer Inaktivität gelöscht | ⚠️ ok als Schnell-Ablage, nicht für Dauerverweise |
+| **Pixeldrain** | unbegrenzt | 20 GB | Dateien bei Inaktivität (>90 Tage ohne Downloads) gelöscht | ⚠️ Schnell-Ablage |
+| **catbox.moe** | unbegrenzt | 200 MB/Datei | ✅ | ⚠️ nur für die kleinen Einträge (L04–L11), L01–L03 zu groß |
+| Google Drive | 15 GB | 5 TB | Speicher fix | ✅ Alternative zu MEGA |
+| OneDrive | 5 GB | 250 GB | Speicher fix | ✅ reicht knapp (1,38 GB) |
+| Dropbox | 2 GB | 50 GB Browser / unbegrenzt App | Speicher fix | ⚠️ zu klein für alles auf einmal |
+| GitHub Releases (dieses Repo) | unbegrenzt | 2 GB/Datei | ✅ an Release gebunden | ✅ **pragmatisch**: z. B. pro Installer ein Release; Dateien bis 2 GB erlaubt |
+
+### Konkreter Vorschlag für dieses Projekt
+
+1. **Einfachste Lösung:** ein **MEGA-Konto** (20 GB gratis) → Ordner
+   `_LargeFiles_Upload` komplett hochladen → Ordner-Link in **L01–L11**
+   eintragen (der gleiche Link plus Unterordnerangabe je Eintrag).
+2. **Oder ohne Konto:** **GitHub Releases** in diesem Repo
+   (`Releases → New Release`) – bis 2 GB pro Datei, dauerhaft, privat im
+   privaten Repo. Ideale für L01–L03; für die vielen kleinen LCUS-/ASE-Dateien
+   vorher als ZIP bündeln.
+3. **Für wirklich unbegrenzte Dauer:** Internet Archive (nur wenn die Dateien
+   öffentlich sein dürfen – Hersteller-Installer sind i. d. R. ok, interne
+   ASE-Messdaten eher nicht).
+
+> **Hinweis:** Kein Gratis-Hoster garantiert Verfügungsgewalt für immer –
+> für geschäftskritische Daten zusätzlich eine lokale Sicherung (z. B. die
+> externe Platte) behalten. Die LINK-Liste oben bleibt die zentrale Referenz:
+> falls ein Link stirbt, nur dort die URL austauschen.
+
 ## Vorgehen auf dem Ziel-PC
 
 1. Ordner `_LargeFiles_Upload` von der Upload-Stelle (Links oben) auf den
