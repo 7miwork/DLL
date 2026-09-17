@@ -38,7 +38,7 @@ Grundlage für **Connectors** (Systeme miteinander verbinden).
 |---|---|
 | `GZVision/README.md` | Übersicht + Zweck je Unterordner |
 | `GZVision/AGENTS.md` | **KI-Kontext für Connector-Bau** (Schnittstellen, Ansprechpartner-Code) |
-| `GZVision/LARGE_FILES.md` | **Komplette Liste aller großen Dateien** (~1,4 GB, inkl. Upload-Link-Spalte `__LINK__` — nach dem Hochladen Links dort eintragen), die NICHT im Repo liegen, sondern separat unter `Z:\GZVision\_LargeFiles_Upload\` abgelegt sind |
+| `GZVision/LARGE_FILES.md` | **Komplette Liste aller großen Dateien** (~1,4 GB, mit nummerierter LINK-Liste L01..L11 zum direkten Einfügen der URLs), die NICHT im Repo liegen, sondern separat unter `Z:\GZVision\_LargeFiles_Upload\` abgelegt sind |
 | `GZVision/Sentech-Kamera/` | Sentech-GigE-Kamera (Doku/Verweis) |
 | `GZVision/Drivers/SONY-XCL-5005CR/` | Sony-Kamera-Unterlagen |
 | `GZVision/Barcode/Csharp-ImageCapture-VS2008-Beispiel/` | Barcode-Scanner C#-Beispiel (Bildaufnahme) |
