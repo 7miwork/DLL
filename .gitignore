@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# Build-Artefakte: NICHT ins Repo (nur Quellcode + READMEs/Anleitungen)
+# Gilt fuer alle Projektordner (Konvention: ein Ordner pro Projekt).
+# ---------------------------------------------------------------------------
+
+# Python (PyInstaller)
+**/dist/
+**/build/
+**/__pycache__/
+*.spec
+
+# C/C++ (MSVC/MinGW)
+**/obj/
+*.exe
+*.pdb
+*.obj
+*.ilk
+*.idb
+*.exp
+*.lib
+
+# .NET (VB.NET/C#)
+**/bin/
+*.user
+*.suo
+.vs/
+
+# Sonstige Build-/Editor-Reste
+*.log
+Thumbs.db
+desktop.ini
