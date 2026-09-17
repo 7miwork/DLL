@@ -1,0 +1,85 @@
+# Projektkontext für Cline – SUNIX SDC I/O Control Board Integration
+
+Diese Datei gibt Cline (VS Code) den nötigen Kontext, um an diesem Projekt zu
+arbeiten, **ohne dass die SUNIX PCIe-Karte oder deren Treiber/DLL auf dieser
+Entwicklungsmaschine installiert sind**. Ziel: Code schreiben, refaktorieren
+und testen können, der später auf dem eigentlichen Industrie-PC mit
+eingebauter Karte läuft.
+
+## 1. Worum geht es
+- Hardware: SUNIX PCI Express Industrial I/O Control Board
+  - **SDC4880B**: 4x RS-232/422/485 + 8x Digital Input + 8x Digital Output (isoliert)
+  - **SDC0880I**: nur 8x Digital Input + 8x Digital Output (isoliert)
+- Ansteuerung über Herstellerprogramm **SDC Manager** (GUI) und/oder
+  **sdciodll.dll** (C-API, per DLL-Import aus C/C++, VB.NET oder Python/ctypes
+  nutzbar).
+- Bekannte, im Handbuch dokumentierte Funktionen der DLL:
+  - `_sdc_dll_init()`
+  - `_sdc_dll_free()`
+  - `_sdc_get_service_info()`
+  - `_sdc_get_sdc_info()`
+- **Wichtig:** Die exakten Signaturen für das eigentliche Lesen der Digital
+  Inputs bzw. Schreiben der Digital Outputs sind in der aktuellen
+  Dokumentationsgrundlage NICHT enthalten. Sie befinden sich nur in der
+  `sdciodll.h`, die Teil des SUNIX-SDK-Ordners ist (liegt normalerweise neben
+  `sdciodll.dll`/`sdciodll.lib` im Treiberpaket).
+
+## 2. Regel für Cline: Keine Funktionssignaturen erfinden
+- Wenn eine Funktion aus der DLL benötigt wird, deren genaue Signatur nicht
+  bekannt ist (Parameter, Rückgabetyp, ByRef/Pointer-Verhalten): **nicht
+  raten**. Stattdessen:
+  1. Im Repo nach `sdciodll.h` oder vorhandenen Beispielprojekten suchen.
+  2. Falls nicht vorhanden: TODO-Kommentar setzen und im Chat nachfragen,
+     bzw. eine klar markierte Platzhalter-Signatur verwenden, die vor
+     produktivem Einsatz noch verifiziert werden muss.
+- Vorhandene Referenz-Implementierungen im Repo (falls hier abgelegt):
+  `SUNIX_DLL_Python.md`, `SUNIX_DLL_Cpp.md`, `SUNIX_DLL_VisualBasic.md`
+  – diese enthalten nur die vier bestätigten Funktionen als Grundgerüst.
+
+## 3. Arbeiten ohne physische Hardware / ohne installierte DLL
+Da auf dieser Maschine weder die Karte noch der SUNIX-Treiber/DLL installiert
+sind, gilt folgende Architektur-Vorgabe für neuen Code:
+
+- **Immer eine Abstraktionsschicht (Interface/Wrapper) um die DLL-Aufrufe
+  legen**, z. B. `ISdcIoDevice` (C++/VB) oder eine `SdcIoClient`-Klasse
+  (Python), NIE direkte `DllImport`/`ctypes`-Aufrufe verstreut im
+  Business-Code.
+- Für lokale Entwicklung/Tests: **Mock-/Stub-Implementierung** dieser
+  Schnittstelle bereitstellen, die plausible Werte zurückgibt (z. B. fixe
+  DI-Zustände, Erfolgscode `0`), damit UI/Logik ohne reale Karte getestet
+  werden kann.
+- Die echte Implementierung (tatsächlicher DLL-Import) hinter einem
+  Feature-Flag / einer Konfigurationsoption umschaltbar machen
+  (z. B. `USE_REAL_HARDWARE = False` als Default in der Dev-Umgebung).
+- Code, der reale P/Invoke- bzw. ctypes-Aufrufe enthält, darauf hinweisen,
+  dass ein Import-Fehler auf dieser Maschine **erwartet** ist (fehlende DLL),
+  solange kein Treiber installiert ist – das ist kein Bug im Code.
+
+## 4. Architektur/Stack-Hinweise
+- Python-Teile: `ctypes.WinDLL`, Architektur (x86/x64) muss zur DLL passen.
+- C++-Teile: Visual Studio, Include/Lib-Pfade wie in Kapitel 5 des
+  SUNIX-Handbuchs beschrieben; DLL per Post-Build-Event neben die .exe
+  kopieren.
+- VB.NET-Teile: `DllImport`, `Target CPU` (x86/x64) explizit setzen, nicht
+  "Any CPU".
+- Windows-only-API (WinDLL/P-Invoke) – auf Nicht-Windows-Entwicklungsumgebungen
+  automatisch auf die Mock-Implementierung zurückfallen.
+
+## 5. Hardware-Referenzdaten (für Kommentare/Doku, nicht raten)
+- Digital Input: 8 Kanäle, NPN & PNP, 32-Bit-Zähler pro Kanal,
+  Interrupt-Modi: Rising/Falling/Both + Polling.
+- Digital Output: 8 Kanäle, NPN, 3.5–40 VDC, 500 mA/Kanal, Initial-Value-Schutz
+  bei Boot/Restart.
+- DB44-Terminalblock-Pinbelegung (Board-Seite `A SIDE`, DB44MDWB):
+  - DI COM: Pin 1, 2 | DI GND: Pin 3, 4 | DI1–DI8: Pin 5–12
+  - DO PWR: Pin 14, 15 | DO GND: Pin 16, 17 | DO1–DO8: Pin 18–25
+- Serial (nur SDC4880B): 4 Ports RS-232/422/485, 16C950 UART, 50 bps–921.6 kbps.
+
+## 6. Was Cline NICHT tun soll
+- Keine Silent-Install-Parameter für `Setup.exe` erfinden (InstallShield-Switches
+  sind für dieses Paket nicht dokumentiert/bestätigt).
+- Keine DLL-Funktionsnamen/-Parameter erfinden, die nicht aus `sdciodll.h`
+  oder bestätigter Dokumentation stammen.
+- Keine Annahme, dass Testläufe mit echter Hardware auf dieser Maschine
+  möglich sind – Integrationstests mit echter Karte laufen nur auf dem
+  Ziel-PC (industrieller Rechner mit eingebauter SDC4880B/SDC0880I).
