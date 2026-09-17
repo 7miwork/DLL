@@ -6,6 +6,34 @@ Viele Tools lesen automatisch eine Datei namens `AGENTS.md` (oder
 `CONTEXT.md`) im Projekt-Root; bei Tools ohne Auto-Erkennung einfach den
 Inhalt am Anfang eines neuen Chats einfügen oder als Datei mitschicken.
 
+## 0. Repo-Struktur (wichtig für den Fundort dieser Datei)
+Dieses Dokument liegt im Repository **https://github.com/7miwork/DLL** im
+Ordner **`/SUNIX/`**. Das Repo ist so organisiert, dass **jedes Projekt einen
+eigenen Top-Level-Ordner** bekommt (Konvention, gilt auch für zukünftige
+Projekte, nicht nur SUNIX). Alle in diesem Dokument referenzierten
+Geschwisterdateien liegen also ebenfalls unter `/SUNIX/`:
+
+```
+DLL/
+├── README.md                          <- Repo-weite Konvention (alle Projekte)
+└── SUNIX/
+    ├── README.md                      <- Projekt-Index für SUNIX
+    ├── AGENTS.md                      <- diese Datei
+    ├── .clinerules                    <- Cline-spezifische Variante desselben Kontexts
+    ├── SUNIX_DLL_Python.md
+    ├── SUNIX_DLL_Cpp.md
+    ├── SUNIX_DLL_VisualBasic.md
+    ├── SUNIX_Installation_Kurzanleitung.md
+    └── SUNIX_Install_Helper.ps1
+```
+
+Wenn eine KI mit Zugriff auf dieses Repo arbeitet (Clone/Checkout vorhanden):
+Bitte **nicht raten**, ob eine Datei existiert – stattdessen den Ordner
+`/SUNIX/` aus dem Repo direkt auflisten/lesen. Die eigentliche `sdciodll.h`
+und `sdciodll.dll`/`.lib` sind **nicht** Teil dieses Repos (Hersteller-SDK,
+urheberrechtlich beim Hersteller) – diese liegen nur lokal im
+SUNIX-Treiberpaket auf dem jeweiligen Entwicklungs-/Zielrechner.
+
 ## 1. Projektüberblick
 Ziel ist die Software-Integration einer **SUNIX PCI Express Industrial I/O
 Control Board** (Modelle **SDC4880B** oder **SDC0880I**) in eigene
@@ -67,13 +95,17 @@ Inputs bzw. Schreiben der Digital Outputs) gilt:
 - Ebenso keine Silent-Install-Parameter für `Setup.exe` (InstallShield)
   erfinden – für dieses Paket sind keine Kommandozeilenschalter dokumentiert.
 
-## 4. Bereits vorhandene Referenzdateien (falls im Repo abgelegt)
+## 4. Vorhandene Referenzdateien in diesem Ordner (`/SUNIX/` im Repo)
 - `SUNIX_DLL_Python.md` – Grundgerüst mit ctypes (nur die vier bestätigten
   Funktionen).
 - `SUNIX_DLL_Cpp.md` – Grundgerüst als Visual-Studio-Konsolenprojekt.
 - `SUNIX_DLL_VisualBasic.md` – Grundgerüst mit `DllImport` in VB.NET.
 - `SUNIX_Installation_Kurzanleitung.md` – Installationsschritte inkl.
   Begriffe für die traditionell-chinesische Windows-Oberfläche.
+- `SUNIX_Install_Helper.ps1` – PowerShell-Skript, das die Installation startet
+  und danach per `Get-PnpDevice` prüft, ob Karte/COM-Ports korrekt erkannt
+  wurden.
+- `README.md` – kurzer Index dieses Projektordners.
 
 ## 5. Plattform-/Architektur-Hinweise (sprachübergreifend)
 - Windows-only API (P/Invoke, ctypes.WinDLL) – auf Nicht-Windows-Umgebungen

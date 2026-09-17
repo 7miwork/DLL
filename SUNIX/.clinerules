@@ -6,6 +6,30 @@ Entwicklungsmaschine installiert sind**. Ziel: Code schreiben, refaktorieren
 und testen können, der später auf dem eigentlichen Industrie-PC mit
 eingebauter Karte läuft.
 
+## 0. Repo-Struktur
+Dieses Projekt liegt im Repository **https://github.com/7miwork/DLL** im
+Ordner **`/SUNIX/`**. Konvention im Repo: **ein Top-Level-Ordner pro
+Projekt** (gilt auch für alle zukünftigen Projekte, nicht nur SUNIX).
+Geschwisterdateien in diesem Ordner:
+
+```
+DLL/
+├── README.md              <- Repo-weite Konvention (alle Projekte)
+└── SUNIX/
+    ├── README.md          <- Projekt-Index für SUNIX
+    ├── AGENTS.md           <- werkzeug-neutrale Variante desselben Kontexts
+    ├── .clinerules         <- diese Datei
+    ├── SUNIX_DLL_Python.md
+    ├── SUNIX_DLL_Cpp.md
+    ├── SUNIX_DLL_VisualBasic.md
+    ├── SUNIX_Installation_Kurzanleitung.md
+    └── SUNIX_Install_Helper.ps1
+```
+
+Bei Zugriff auf das geklonte Repo: den Ordner `/SUNIX/` direkt auflisten statt
+zu raten, welche Dateien existieren. `sdciodll.h`/`.dll`/`.lib` (Hersteller-SDK)
+sind NICHT Teil dieses Repos, sondern liegen nur lokal im Treiberpaket.
+
 ## 1. Worum geht es
 - Hardware: SUNIX PCI Express Industrial I/O Control Board
   - **SDC4880B**: 4x RS-232/422/485 + 8x Digital Input + 8x Digital Output (isoliert)
