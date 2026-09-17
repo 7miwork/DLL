@@ -34,7 +34,9 @@ Komponenten miteinander verbinden.
 2. Build-Artefakte (`bin/`, `obj/`, `build/`, `dist/`, `__pycache__/`, `*.exe`)
    bleiben aus dem Git-Repo draußen (siehe `../.gitignore`).
 3. Große Installer/SDKs liegen **nicht** im Repo: `Z:\GZVision\_LargeFiles_Upload\`
-   (siehe `LARGE_FILES.md`). Im Code/README nur darauf verweisen.
+   (siehe `LARGE_FILES.md` – dort steht die komplette Dateiliste inkl. Spalte
+   „Upload-Link"; nach dem Hochladen werden die Links in die `__LINK__`-Platzhalter
+   eingetragen). Im Code/README nur darauf verweisen.
 4. Chinesische Originaldateien (Ordner-/Dateinamen) nicht umbenennen, wenn sie
    von Hersteller-Tools referenziert werden – stattdessen im README übersetzen.
 5. Neue Connector-Ordner nach dem Muster `<Komponente>-Connector/` anlegen und
