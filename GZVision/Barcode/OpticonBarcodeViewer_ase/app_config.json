@@ -1,0 +1,17 @@
+{
+  "scan_storage_root_path": "",
+  "standard_root_path": "",
+  "nonstandard_path": "",
+  "image_storage_path": "",
+  "wafer_id_pattern": "^(?P<seg1>[0-9]+)-(?P<seg2>[A-Za-z0-9]+)-(?P<seg3>[0-9]{3})-(?P<seg4>[0-9]{3})$",
+  "scan_timeout_seconds": 5,
+  "trigger_source_mode": "manual",
+  "trigger_source_com_port": "",
+  "trigger_source_baud_rate": 9600,
+  "trigger_source_expected_string": "TRIGGER",
+  "autofocus_command": "AF",
+  "image_capture_width": 1280,
+  "image_capture_height": 800,
+  "image_capture_subsample": 1,
+  "image_capture_jpeg_quality": 75
+}

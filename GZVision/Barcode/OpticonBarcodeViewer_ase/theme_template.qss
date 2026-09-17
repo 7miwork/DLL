@@ -1,0 +1,554 @@
+/*
+ * Opticon Barcode Viewer — Semiconductor/Cleanroom Dark Theme
+ * Central Qt Stylesheet (QSS) — no inline styles in Python code.
+ *
+ * Color Legend (for easy theming):
+ *   --bg-base:       {{bg_base}}   (main window background)
+ *   --bg-panel:      {{bg_panel}}   (panels, frames, table background)
+ *   --bg-hover:      {{bg_hover}}   (button hover, row hover)
+ *   --bg-pressed:    {{bg_pressed}}   (button pressed)
+ *   --fg-primary:    {{fg_primary}}   (primary text)
+ *   --fg-secondary:  {{fg_secondary}}   (secondary/disabled text)
+ *   --fg-muted:      {{fg_muted}}   (muted text, status bar)
+ *   --accent:        {{accent}}   (electric cyan — primary accent)
+ *   --accent-dim:    {{accent_dim}}   (darker accent for pressed)
+ *   --accent-glow:   {{accent_glow}} (focus ring / glow)
+ *   --border:        {{border}}   (hairline borders)
+ *   --border-focus:  {{accent}}   (focused input border)
+ *   --green-led:     {{green_led}}   (connected LED)
+ *   --green-glow:    {{green_glow}}
+ *   --red-led:       {{red_led}}   (error/disconnected LED)
+ *   --red-glow:      {{red_glow}}
+ *   --table-alt:     {{bg_pressed}}   (alternating row)
+ *   --table-header:  {{table_header}}   (header background)
+ *   --table-grid:    {{border}}   (grid lines)
+ *   --selection:     {{selection}} (row selection)
+ *   --dupe-text:     {{dupe_text}}   (duplicate scan text)
+ */
+
+/* ============================================================
+ * Global / Application
+ * ============================================================ */
+QWidget {
+    background-color: {{bg_base}};
+    color: {{fg_primary}};
+    font-family: "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    font-size: 10pt;
+}
+
+/* Tooltips */
+QToolTip {
+    background-color: {{bg_panel}};
+    border: 1px solid {{border}};
+    color: {{fg_primary}};
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+
+/* ============================================================
+ * Main Window
+ * ============================================================ */
+QMainWindow {
+    background-color: {{bg_base}};
+    border: none;
+}
+
+/* ============================================================
+ * Frames / Panels
+ * ============================================================ */
+QFrame {
+    background-color: {{bg_panel}};
+    border: 1px solid {{border}};
+    border-radius: 3px;
+}
+
+/* Connection panel frame */
+QFrame#connFrame {
+    background-color: {{bg_panel}};
+    border: 1px solid {{border}};
+    border-radius: 4px;
+}
+
+/* ============================================================
+ * Labels
+ * ============================================================ */
+QLabel {
+    background-color: transparent;
+    color: {{fg_primary}};
+}
+
+/* Status LED label (connected/disconnected) */
+QLabel#statusLed {
+    font-size: 11pt;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Connected state (green LED look) */
+QLabel#statusLed[connected="true"] {
+    color: {{green_led}};
+    background-color: {{green_dim}};
+    border: 1px solid {{green_led}};
+}
+
+/* Disconnected state (muted red/gray) */
+QLabel#statusLed[connected="false"] {
+    color: {{dupe_text}};
+    background-color: {{gray_glow}};
+    border: 1px solid {{border}};
+}
+
+/* License status indicator icon */
+QLabel#licenseIndicator {
+    background-color: transparent;
+    padding: 2px;
+    border-radius: 3px;
+}
+
+QLabel#licenseIndicator QToolTip {
+    background-color: {{bg_panel}};
+    border: 1px solid {{border}};
+    color: {{fg_primary}};
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+
+/* Copy flash label */
+QLabel#copyFlash {
+    color: {{green_led}};
+    font-weight: 600;
+    font-size: 9pt;
+}
+
+/* Scan count label */
+QLabel#scanCount {
+    color: {{fg_secondary}};
+    font-size: 9pt;
+}
+
+/* TX log label (muted, monospace for hex data) */
+QLabel#txLog {
+    color: {{dupe_text}};
+    font-size: 9pt;
+    font-family: "Consolas", monospace;
+}
+
+/* Empty table placeholder hint */
+QLabel#tableEmptyHint {
+    color: {{fg_muted}};
+    font-size: 11pt;
+    padding: 40px;
+    background-color: {{bg_base}};
+    border: 1px solid {{border}};
+    border-radius: 3px;
+}
+
+/* Error text (used for fehlgeschlagen/NG rows and status messages) */
+QLabel#errorText {
+    color: {{red_led}};
+}
+
+/* Success text (used for success status messages) */
+QLabel#successText {
+    color: {{green_led}};
+}
+
+/* ============================================================
+ * Buttons
+ * ============================================================ */
+QPushButton {
+    background-color: {{bg_hover}};
+    color: {{fg_primary}};
+    border: 1px solid {{border}};
+    border-radius: 3px;
+    padding: 4px 12px;
+    font-weight: 500;
+    min-height: 22px;
+}
+
+QPushButton:hover {
+    background-color: {{hover_mid}};
+    border-color: {{border_hover}};
+}
+
+QPushButton:pressed {
+    background-color: {{bg_pressed}};
+    border-color: {{accent}};
+}
+
+QPushButton:focus {
+    border: 1px solid {{accent}};
+    outline: none;
+}
+
+QPushButton:disabled {
+    background-color: {{bg_pressed}};
+    color: {{fg_disabled}};
+    border-color: {{border}};
+}
+
+/* Primary action button (Connect) */
+QPushButton#btnConnect {
+    background-color: {{accent}};
+    color: {{on_accent}};
+    border: 1px solid {{accent}};
+    font-weight: 600;
+}
+
+QPushButton#btnConnect:hover {
+    background-color: {{accent_hover}};
+    border-color: {{accent_hover}};
+}
+
+QPushButton#btnConnect:pressed {
+    background-color: {{accent_dim}};
+    border-color: {{accent_dim}};
+}
+
+QPushButton#btnConnect:disabled {
+    background-color: {{bg_pressed}};
+    color: {{fg_disabled}};
+    border-color: {{border}};
+}
+
+/* Refresh button (icon-only) */
+QPushButton#btnRefresh {
+    background-color: transparent;
+    border: none;
+    color: {{fg_secondary}};
+    font-size: 12pt;
+    min-width: 28px;
+    max-width: 28px;
+    padding: 0;
+}
+
+QPushButton#btnRefresh:hover {
+    background-color: {{bg_hover}};
+    color: {{accent}};
+    border-radius: 3px;
+}
+
+QPushButton#btnRefresh:pressed {
+    background-color: {{bg_pressed}};
+}
+
+/* Toolbar buttons (Copy Selected, Copy All, Clear) */
+QPushButton#toolbarBtn {
+    padding: 4px 10px;
+    font-size: 9.5pt;
+}
+
+/* ============================================================
+ * Combo Boxes
+ * ============================================================ */
+QComboBox {
+    background-color: {{bg_pressed}};
+    color: {{fg_primary}};
+    border: 1px solid {{border}};
+    border-radius: 3px;
+    padding: 3px 8px;
+    min-height: 22px;
+    selection-background-color: {{accent}};
+    selection-color: {{on_accent}};
+}
+
+QComboBox:hover {
+    border-color: {{border_hover}};
+}
+
+QComboBox:focus {
+    border-color: {{accent}};
+}
+
+/* ============================================================
+ * Line Edits (Input Fields)
+ * ============================================================ */
+QLineEdit {
+    background-color: {{bg_pressed}};
+    color: {{fg_primary}};
+    border: 1px solid {{border}};
+    border-radius: 3px;
+    padding: 3px 8px;
+    min-height: 22px;
+    selection-background-color: {{accent}};
+    selection-color: {{on_accent}};
+}
+
+QLineEdit:hover {
+    border-color: {{border_hover}};
+}
+
+QLineEdit:focus {
+    border-color: {{accent}};
+    background-color: {{bg_base}};
+}
+
+QLineEdit:disabled {
+    background-color: {{bg_pressed}};
+    color: {{fg_disabled}};
+    border-color: {{border}};
+}
+
+/* ============================================================
+ * Tool Button (menu hamburger icon)
+ * ============================================================ */
+QToolButton {
+    background-color: {{bg_hover}};
+    color: {{fg_primary}};
+    border: 1px solid {{border}};
+    border-radius: 3px;
+    padding: 2px 6px;
+    min-width: 26px;
+    min-height: 22px;
+}
+
+QToolButton:hover {
+    background-color: {{hover_mid}};
+    border-color: {{border_hover}};
+}
+
+QToolButton:pressed {
+    background-color: {{bg_pressed}};
+    border-color: {{accent}};
+}
+
+QToolButton:checked {
+    background-color: {{accent}};
+    color: {{on_accent}};
+    border-color: {{accent}};
+}
+
+QToolButton:disabled {
+    background-color: {{bg_pressed}};
+    color: {{fg_disabled}};
+    border-color: {{border}};
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 22px;
+    border-left: 1px solid {{border}};
+    background-color: {{bg_hover}};
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox::drop-down:hover {
+    background-color: {{hover_mid}};
+}
+
+QComboBox::down-arrow {
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid {{fg_secondary}};
+    margin-right: 6px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: {{bg_panel}};
+    color: {{fg_primary}};
+    border: 1px solid {{border}};
+    selection-background-color: {{accent}};
+    selection-color: {{on_accent}};
+    outline: none;
+    padding: 2px;
+}
+
+/* ============================================================
+ * Table Widget (Scan List)
+ * ============================================================ */
+QTableWidget {
+    background-color: {{bg_base}};
+    alternate-background-color: {{table_alt}};
+    color: {{fg_primary}};
+    gridline-color: {{table_grid}};
+    border: 1px solid {{border}};
+    border-radius: 3px;
+    selection-background-color: {{selection}};
+    selection-color: {{fg_primary}};
+    outline: none;
+}
+
+QTableWidget::item {
+    padding: 4px 8px;
+    border: none;
+}
+
+QTableWidget::item:selected {
+    background-color: {{selection}};
+    color: {{fg_primary}};
+}
+
+/* Header */
+QHeaderView::section {
+    background-color: {{table_header}};
+    color: {{fg_secondary}};
+    border: none;
+    border-bottom: 1px solid {{table_grid}};
+    border-right: 1px solid {{table_grid}};
+    padding: 6px 8px;
+    font-weight: 600;
+    font-size: 9pt;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+QHeaderView::section:last {
+    border-right: none;
+}
+
+QHeaderView::section:hover {
+    background-color: {{bg_hover}};
+}
+
+/* Vertical header (hidden but keep styled) */
+QHeaderView::section:vertical {
+    background-color: {{table_header}};
+    border: none;
+    border-bottom: 1px solid {{table_grid}};
+}
+
+/* ============================================================
+ * Check Box
+ * ============================================================ */
+QCheckBox {
+    color: {{fg_primary}};
+    spacing: 8px;
+}
+
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid {{border}};
+    border-radius: 3px;
+    background-color: {{bg_pressed}};
+}
+
+QCheckBox::indicator:hover {
+    border-color: {{accent}};
+}
+
+QCheckBox::indicator:checked {
+    background-color: {{accent}};
+    border-color: {{accent}};
+    image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOSIgdmlld0JveD0iMCAwIDEyIDkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDQuNUw0LjUgOEwxMSAxIiBzdHJva2U9IiMwZDExMTciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==);
+}
+
+QCheckBox::indicator:checked:hover {
+    background-color: {{accent_hover}};
+    border-color: {{accent_hover}};
+}
+
+/* ============================================================
+ * Status Bar
+ * ============================================================ */
+QStatusBar {
+    background-color: {{statusbar_bg}};
+    color: {{fg_muted}};
+    border-top: 1px solid {{border}};
+    padding: 2px 8px;
+    font-size: 8.5pt;
+}
+
+QStatusBar::item {
+    border: none;
+}
+
+/* ============================================================
+ * Message Box
+ * ============================================================ */
+QMessageBox {
+    background-color: {{bg_panel}};
+    color: {{fg_primary}};
+}
+
+QMessageBox QLabel {
+    color: {{fg_primary}};
+}
+
+QMessageBox QPushButton {
+    min-width: 80px;
+}
+
+/* ============================================================
+ * Scroll Bars
+ * ============================================================ */
+QScrollBar:vertical {
+    background-color: {{bg_base}};
+    width: 10px;
+    border: none;
+    margin: 0;
+}
+
+QScrollBar::handle:vertical {
+    background-color: {{border}};
+    border-radius: 4px;
+    min-height: 30px;
+    margin: 2px 2px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: {{border_hover}};
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0;
+}
+
+QScrollBar:horizontal {
+    background-color: {{bg_base}};
+    height: 10px;
+    border: none;
+    margin: 0;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: {{border}};
+    border-radius: 4px;
+    min-width: 30px;
+    margin: 2px 2px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background-color: {{border_hover}};
+}
+
+/* ============================================================
+ * Scroll Area (main content wrapper for responsive resize)
+ * ============================================================ */
+QScrollArea {
+    background-color: transparent;
+    border: none;
+}
+
+QScrollArea > QWidget > QWidget {
+    background-color: transparent;
+}
+
+/* ============================================================
+ * Progress Bar (tuning progress / busy indicator)
+ * ============================================================ */
+QProgressBar {
+    background-color: {{bg_pressed}};
+    border: 1px solid {{border}};
+    border-radius: 3px;
+    min-height: 14px;
+    text-align: center;
+    color: {{fg_primary}};
+    font-size: 8pt;
+}
+
+QProgressBar::chunk {
+    background-color: {{accent}};
+    border-radius: 2px;
+}
+
+/* ============================================================
+ * Font override for barcode column (handled in Python for QTableWidget)
+ * Monospace for barcode values — done programmatically
+ * ============================================================
+ */

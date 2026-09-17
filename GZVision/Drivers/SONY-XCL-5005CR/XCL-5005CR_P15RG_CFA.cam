@@ -1,0 +1,160 @@
+;*********************************************************************************************
+; Camera Manufacturer: SONY
+; Camera Model: XCL-5005CR
+; Camera Configuration: Color BAYER, Progressive Area-Scan, Up to 15fps, Asynchronous Reset, Grabber-Controlled Exposure.
+; Board: Grablink_Quickpack_CFA
+; Board: Grablink_Quickpack_CFA_PCIe
+; Minimum MultiCam Version: 6.5
+; Last update: 28 Nov 2011
+;*********************************************************************************************
+;*********************************************************************************************
+;Disclaimer:
+;
+;These CAM-files are provided to you free of charge and "as is".
+;You should not assume that these CAM-files are error-free or
+;suitable for any purpose whatsoever. 
+;Nor should you assume that all functional modes of the camera are
+;covered by these CAM files or that the associated documentation is complete.
+;EURESYS does not give any representation or warranty that these CAM-files are
+;free of any defect or error or suitable for any purpose.
+;EURESYS shall not be liable, in contract, in torts or otherwise,
+;for any damages, loss, costs, expenses or other claims for compensation,
+;including those asserted by third parties, arising out of or in connection
+;with the use of these CAM-files.
+;*********************************************************************************************
+;
+; ==Begin of "Camera properties Section"==
+;
+; -Camera Specification category-
+    Camera =            MyCameraLink;
+    CamConfig =         PxxRG;
+    Imaging =           AREA;           
+    Spectrum =          COLOR;          
+;
+; -Camera Features category-
+    TapConfiguration =  BASE_2T12;      <== BASE_1T8   BASE_1T10   BASE_1T12
+;                                       <== BASE_2T8   BASE_2T10   BASE_2T12
+;                                       <== BASE_4T8B2 BASE_4T10B2 BASE_4T12B2
+    TapGeometry =       1X2_1Y;         <== 1X_1Y
+;                                       <== 1X2_1Y 2X_1Y        2XE_1Y  2XM_1Y  1X_1Y2
+;                                       <== 1X4_1Y 4X_1Y 2X2_1Y 2X2E_1Y 2X2M_1Y
+    Expose =            WIDTH;          
+    Readout =           INTCTL;         
+    ColorMethod =       BAYER;          
+    ColorRegistration = RG;             <== GB BG RG GR
+    ExposeOverlap =     FORBID;         <== FORBID ALLOW
+;
+; --Downstream signals--
+    FvalMode =          FA;             
+    LvalMode =          LA;             
+    DvalMode =          DN;             <== DN DG
+;
+; --Upstream signals--
+    ResetCtl =          DIFF;           
+    ResetEdge =         GOHIGH;         <== GOHIGH GOLOW
+    CC1Usage =          RESET;          <== LOW HIGH RESET SOFT
+    CC2Usage =          LOW;            <== LOW HIGH RESET SOFT
+    CC3Usage =          LOW;            <== LOW HIGH RESET SOFT
+    CC4Usage =          LOW;            <== LOW HIGH RESET SOFT
+;
+; -Camera Timing category-
+    Hactive_Px =        2448;           <==
+    Vactive_Ln =        2048;           <==
+    HSyncAft_Tk =       0;              <==
+    VSyncAft_Ln =       0;              <==
+    FrameRate_mHz =     15000;          <==
+    ExposeRecovery_us = 10;             <==
+    ReadoutRecovery_us =10;             <==
+    ExposeMin_us =      100;            <==
+    ExposeMax_us =      2000000;        <==
+;
+; ==End of "Camera properties Section"==
+;*********************************************************************************************
+; ==Begin of "System properties Section"==
+; 
+; -Acquisition Control category-
+    AcquisitionMode =   SNAPSHOT;       <== SNAPSHOT HFR VIDEO
+    TrigMode =          IMMEDIATE;      <== IMMEDIATE HARD SOFT COMBINED
+    NextTrigMode =      SAME;           <== SAME HARD SOFT COMBINED REPEAT (when AcquisitionMode = SNAPSHOT or HFR)
+;                                           <== SAME HARD SOFT COMBINED REPEAT PERIODIC (when AcquisitionMode = VIDEO)
+    ActivityLength =    1;              <== 1 (when AcquisitionMode = SNAPSHOT or HFR)
+;                                           <== -1 1..65536 (when AcquisitionMode = VIDEO)
+    SeqLength_Fr =      1;              <== -1 1..65534
+    PhaseLength_Fr =    1;              <== 1 (when AcquisitionMode = SNAPSHOT or VIDEO)
+;                                           <== 1..255 (when AcquisitionMode = HFR)
+;
+; -Trigger Control category-
+    TrigCtl =           TTL;            <== TTL ITTL I12V LVDS
+    TrigEdge =          GOHIGH;         <== GOHIGH GOLOW
+    TrigFilter =        MEDIUM;         <== OFF MEDIUM STRONG
+    TrigLine =          NOM;            <== NOM IO1 IO2 IO3 IO4 (when TrigCtl=TTL)
+;                                       <== NOM ISOA1 ISOA2     (when TrigCtl=ITTL or I12V)
+;                                       <== NOM TRA1 TRA2       (when TrigCtl=LVDS)
+    TrigDelay_us =      0;              <==
+;       The following 2 parameters are controlling the Trigger Decimation circuit that is available 
+;       exclusively on the Grablink Quickpack CFA PCIe when AcquisitionMode = SNAPSHOT or HFR.
+    TrigDelay_Pls =     0;              <== 0..65536
+    NextTrigDelay_Pls = 0;              <== 0..65536
+;
+; -Exposure & Strobe Control categories-
+    Expose_us =         10000;          <==
+    ExposeTrim =        0;              <==
+    StrobeMode =        AUTO;           <== NONE AUTO If the strobe function is unused, set value MAN to free the Strobe Output IO port
+    StrobeDur =         50;             <==
+    StrobePos =         50;             <==
+    StrobeLevel =       PLSHIGH;        <== PLSHIGH PLSLOW
+    StrobeCtl =         OPTO;           <== TTL ITTL IOC IOE OPTO
+    StrobeLine =        NOM;            <== NOM IO1 IO2 IO3 IO4 (when StrobeCtl=TTL)
+;                                       <== NOM ISOA1 ISOA2     (when StrobeCtl=TTL or I12V)
+;                                       <== NOM                 (when StrobeCtl=OPTO)
+    PreStrobe_us =      0;              <==
+;
+; ==End of "System properties Section"==
+;*********************************************************************************************
+; ==Begin of "Grabber properties Section"==
+;
+; -Grabber Configuration, Timing & Conditioning categories-
+    GrabWindow =        NOBLACK;        <== NOBLACK MAN ...
+;       The following 4 parameters are relevant only when GrabWindow = MAN:
+    WindowX_Px =        2448;           <==
+    WindowY_Ln =        2048;           <==
+    OffsetX_Px =        0;              <==
+    OffsetY_Ln =        0;              <==
+;
+; -CFA Pixel Processor-
+    CFD_Mode =          ADVANCED;       <== ADVANCED, LEGACY
+
+; -CFA White Balance Operator-
+    WBO_Mode =          CONTINUOUS;     <== CONTINUOUS, ONCE, NONE, MANUAL
+;       The following 3 parameters are relevant only when WBO_Mode = MAN:
+    WBO_GainR =         1000;           <== (range = 1, 1000; unity gain: 1000)
+    WBO_GainG =         1000;           <== (range = 1, 1000; unity gain: 1000)
+    WBO_GainB =         1000;           <== (range = 1, 1000; unity gain: 1000)
+;       The following 4 parameters are relevant only when WBO_Mode = CONTINUOUS or ONCE and customized AWB_ROI is required:
+    WBO_OrgX =          0;              <==
+    WBO_OrgY =          0;              <==
+    WBO_Width =         640;            <==
+    WBO_Height =        480;            <==
+
+; -Look-Up Tables category-
+;   LUT configuration parameters can be inserted here if required by the application
+;
+; -Cluster category-
+    ColorFormat =       RGB24;          <== Y8 Y10 Y12 Y16
+;                                       <== BAYER8 BAYER10 BAYER12 BAYER16
+;                                       <== RGB24 ARGB32
+;                                       <== RGB24PL RGB30PL RGB36PL RGB48PL
+;                                       <== RGB15Y8 RGB16Y8 RGB24Y8
+;                                       <== RGB24Y10 RGB24Y12 RGB24Y16
+;                                       <== YRGB32 YRGB64
+;                                       <== RGB24PLY8  RGB30PLY8  RGB36PLY8  RGB48PLY8  RGB15Y8 RGB16Y8 RGB24Y8
+;                                       <== RGB24PLY10 RGB30PLY10 RGB36PLY10 RGB48PLY10 RGB15Y8 RGB16Y8 RGB24Y8
+;                                       <== RGB24PLY12 RGB30PLY12 RGB36PLY12 RGB48PLY12
+;                                       <== RGB24PLY16 RGB30PLY16 RGB36PLY16 RGB48PLY16
+    ImageFlipX =        OFF;            <== OFF ON
+    ImageFlipY =        OFF;            <== OFF ON
+;
+; End of "Grabber properties Section"
+;*********************************************************************************************
+; End of File
+;=============

@@ -1,0 +1,17 @@
+INSTRUCTION TO UNZIP THE CAMERA PACKAGE:
+----------------------------------------
+
+These files have to be uncompressed into the "Euresys\MultiCam\Cameras" folder available in the Public Documents folder.
+
+By default:
+
+ - For Microsoft Windows XP, this folder is: 
+	C:\Documents and Settings\All Users\Documents\Euresys\MultiCam\Cameras.
+
+ - For Microsoft Windows Vista and Windows 7 Operating System, this folder is: 
+	C:\Users\Public\Documents\Euresys\MultiCam\Cameras.
+
+ - For a Linux Operating System, this folder is: 
+	/usr/local/euresys/multicam/cameras.
+
+If the MultiCam driver has been installed in another directory than the default one, uncompress the files accordingly.

@@ -55,5 +55,6 @@ gekennzeichnet.
 | Ordner | Hersteller/Produkt | Beschreibung |
 |---|---|---|
 | [`SUNIX/`](./SUNIX) | SUNIX SDC4880B / SDC0880I | PCI Express Industrial I/O Control Board (Digital I/O + RS-232/422/485), Ansteuerung über `sdciodll.dll`; inkl. lauffähigem DI-Tester (Python/C++/VB.NET) unter [`SUNIX/Tester/`](./SUNIX/Tester) |
+| [`GZVision/`](./GZVision) | GZVision-Anlage (SENTECH-Kamera, Sony XCL-5005CR, Opticon-Barcode, AOI-Lochdetektion, 30U/60U-Steuerung, LCUS-USB-Relais, GZDP-A00-Lichtquelle) | Treiber, Doku und Beispielcode aller Komponenten zur Systemkopplung (Connectors); KI-Kontext siehe [`GZVision/AGENTS.md`](./GZVision/AGENTS.md) |
 
 Neue Projekte werden hier ergänzt, sobald ein neuer Ordner angelegt wird.

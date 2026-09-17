@@ -1,0 +1,100 @@
+# .clinerules — OpticonBarcodeViewer
+
+Diese Datei ist die Single Source of Truth für alle Cline-Tasks in diesem
+Projekt. Cline befolgt diese Regeln bei JEDER Aufgabe, auch wenn der
+Task-Prompt sie nicht wiederholt.
+
+## 1. Sprachen / Internationalisierung (i18n) — PFLICHT
+
+- Das Projekt unterstützt genau drei Sprachen: **en**, **de**, **zh_Hant**
+  (Traditionelles Chinesisch). Alle drei leben in `i18n.py` unter
+  `TRANSLATIONS["en"]`, `TRANSLATIONS["de"]`, `TRANSLATIONS["zh_Hant"]`.
+- **JEDE neue sichtbare Zeichenkette** (Button-Label, Tooltip, Dialogtext,
+  Statusmeldung, Menüeintrag, Fehlermeldung, Spaltenüberschrift usw.) MUSS
+  als i18n-Key angelegt werden — niemals als hartkodierter String im
+  UI-Code. Kein Feature gilt als fertig, solange ein neuer String nicht in
+  allen drei Sprachen vorhanden ist.
+- Neue Keys folgen der bestehenden Namenskonvention (snake_case, Präfix
+  nach Kontext, z. B. `menu_action_*`, `tooltip_*`, `status_*`,
+  `confirm_*_msg`).
+- Nach jeder Änderung an `i18n.py` MUSS `tests/check_i18n_keys.py`
+  (bzw. `tests/test_i18n_registry.py`) ausgeführt werden. Es dürfen keine
+  fehlenden Keys in irgendeiner der drei Sprachen übrig bleiben.
+- Deutsche und chinesische Übersetzungen müssen fachlich korrekt und für
+  Bedienpersonal in der Fertigung verständlich sein — keine wörtlichen
+  Maschinenübersetzungen ohne Sinnprüfung. Bei Unsicherheit lieber eine
+  neutrale, klare Formulierung wählen als ein Wortspiel zu erzwingen.
+- Neue Module, die eigene Texte einführen (z. B. `help_content.py`),
+  folgen derselben Drei-Sprachen-Struktur wie `i18n.py`
+  (`Dict[lang][key] = ...`).
+
+## 2. Architektur & Code-Konventionen
+
+- Trennung der Verantwortlichkeiten beibehalten:
+  - `main_window.py` = UI-Zusammenbau + Event-Wiring, keine Business-Logik
+    für Lizenz/Konfiguration.
+  - `app_config.py` = Produktionskonfiguration (IT/Fertigung), getrennt
+    von `settings.py` (Laufzeit-/UI-Einstellungen des Bedieners).
+  - `themes.py` + `theme_template.qss` = einzige Quelle für Farben/Stile.
+    Keine hartkodierten Hex-Farben oder Inline-Styles in `.py`-Dateien.
+- Jede neue Funktion/Methode bekommt einen kurzen Docstring (Zweck, nicht
+  nur Wiederholung des Namens). Öffentliche Module bekommen einen
+  Modul-Docstring wie die bestehenden Dateien.
+- Type Hints für neue Funktionssignaturen verwenden (Projekt nutzt
+  bereits `typing` konsequent, z. B. in `app_config.py`).
+- Keine neuen Third-Party-Abhängigkeiten ohne Rückfrage. Falls unbedingt
+  nötig: in `requirements.txt` mit fixierter Version eintragen und kurz
+  begründen, warum eine Eigenlösung nicht reicht.
+
+## 3. Build-Modi (Portable vs. Licensed)
+
+- `build_config.py` **niemals manuell editieren** — wird automatisch vom
+  Build-Skript gesetzt und danach auf `"portable"` zurückgesetzt. Cline
+  darf diese Datei nur im Rahmen eines expliziten Build-Task-Auftrags
+  anfassen, nie "nebenbei".
+- Neue Features müssen in BEIDEN Build-Modi funktionieren (Portable ohne
+  Lizenzprüfung, Licensed mit `license.lock`-Bindung). Keine
+  Feature-Logik einbauen, die stillschweigend vom Build-Modus abhängt,
+  ohne das explizit zu dokumentieren.
+- `OpticonBarcodeViewer_Portable.exe` niemals als Beispiel für
+  Kunden-Deployment in Doku/Kommentaren verwenden — es ist ausschließlich
+  intern.
+
+## 4. Tests — PFLICHT vor "fertig"-Meldung
+
+- Für jede neue Funktion/jedes neue Modul mit nicht-trivialer Logik einen
+  Test in `tests/` anlegen (Namenskonvention `test_<modul>.py`).
+- Vor Abschluss eines Tasks: `pytest` muss grün durchlaufen (inkl.
+  bestehender Tests — keine Regressionen).
+- i18n-Konsistenz-Check (`check_i18n_keys.py` / `test_i18n_registry.py`)
+  ist Teil der "fertig"-Kriterien, siehe Abschnitt 1.
+- Für Build-Mode-sensitive Logik: bestehendes Mocking-Pattern aus
+  `tests/test_build_modes.py` weiterverwenden statt neu zu erfinden.
+
+## 5. Dokumentation
+
+- `README.md` bei jedem neuen Feature um einen kurzen, prägnanten
+  Abschnitt ergänzen (kein Vollständigkeits-Zwang, aber neue Menüpunkte /
+  Workflows müssen auffindbar sein).
+- Wenn ein Hilfe-/Nachschlagewerk-Modul existiert (`help_content.py`
+  o. ä.): neue Features dort ebenfalls kurz nachpflegen, damit README und
+  In-App-Hilfe nicht auseinanderlaufen.
+- Kommentare im Code auf Englisch ODER Deutsch sind beide okay
+  (Projekt ist gemischt), aber innerhalb einer Datei konsistent bleiben.
+
+## 6. Sicherheit / Daten
+
+- Keine Zugangsdaten, Lizenzschlüssel oder echte Wafer-IDs/Kundendaten in
+  Testdateien, Kommentaren oder Beispielen verwenden — nur Platzhalter.
+- `settings.json` / `app_config.json` Schemata nicht brechend ändern
+  (keine bestehenden Keys umbenennen/entfernen) ohne Migrationslogik.
+
+## 7. Antwortformat von Cline
+
+- Am Ende jedes Tasks: kurze Liste der neu erstellten/geänderten Dateien.
+- Explizite Bestätigung der Checkliste: i18n vollständig (3 Sprachen),
+  Tests grün, README aktualisiert, `build_config.py` unangetastet
+  (außer explizit beauftragt).
+- Bei Unklarheiten zu bestehenden Konventionen: zuerst den vorhandenen
+  Code durchsuchen (z. B. wie eine ähnliche Funktion bereits gelöst ist),
+  bevor eine neue Konvention erfunden wird.

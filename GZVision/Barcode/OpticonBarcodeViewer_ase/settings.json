@@ -1,0 +1,17 @@
+{
+  "window_x": 134,
+  "window_y": 157,
+  "window_width": 1536,
+  "window_height": 889,
+  "window_maximized": true,
+  "last_com_port": "COM4",
+  "last_baud_rate": 115200,
+  "ignore_duplicates": true,
+  "language": "en",
+  "barcode_prefix": "",
+  "barcode_suffix": "",
+  "trigger_max_attempts": 5,
+  "trigger_retry_delay_ms": 1000,
+  "trigger_per_attempt_timeout_ms": 5000,
+  "tutorial_completed": true
+}

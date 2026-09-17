@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "login_id": "A12345",
+      "salt_hex": "62792e1ad0e8ef63f19088a00de33d23",
+      "password_hash_hex": "52e23f55057c90fe20a9a5441c033dbcea5849ad913a0cea534c3310d335883d",
+      "can_manual_entry": true,
+      "role": "operator"
+    },
+    {
+      "login_id": "admin",
+      "salt_hex": "25f6bf2e8b1f26e81c2ec779f95fdf7c",
+      "password_hash_hex": "5ffb27b4dea44a164f49f3ed6a0149c881ae6a5858f472f4a75127fe36d647ec",
+      "can_manual_entry": true,
+      "role": "admin"
+    }
+  ]
+}
